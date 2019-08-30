@@ -41,6 +41,7 @@ namespace VendasWebMVC
 
             services.AddScoped<SeedingService>();
             services.AddScoped<VendedorService>();
+            services.AddScoped<DepartamentoService>();
 
             services.AddDbContext<VendasWebMVCContext>(options =>
                     options.UseMySql(Configuration.GetConnectionString("VendasWebMVCContext"), builder => builder.MigrationsAssembly("VendasWebMVC")));
