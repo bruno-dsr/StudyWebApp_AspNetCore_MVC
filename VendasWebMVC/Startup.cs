@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using VendasWebMVC.Models;
 using Pomelo.EntityFrameworkCore.MySql;
 using VendasWebMVC.Data;
+using VendasWebMVC.Models.Services;
 
 namespace VendasWebMVC
 {
@@ -39,6 +40,7 @@ namespace VendasWebMVC
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddScoped<SeedingService>();
+            services.AddScoped<VendedorService>();
 
             services.AddDbContext<VendasWebMVCContext>(options =>
                     options.UseMySql(Configuration.GetConnectionString("VendasWebMVCContext"), builder => builder.MigrationsAssembly("VendasWebMVC")));
