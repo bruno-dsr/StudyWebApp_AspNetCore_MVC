@@ -1,0 +1,60 @@
+﻿@model VendasWebMVC.Models.Vendedor
+@{
+    ViewData["Title"] = "Deletar Vendedor";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<!-- Os dados aqui são exibidos em forma de tabela -->
+<!-- Seria possível também listar os dados com os elementos dl, dt e dd -->
+<div class="col-md-12">
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr class="success">
+                <th>
+                    @Html.DisplayName("Nome")
+                </th>
+                <th>
+                    @Html.DisplayName("E-Mail")
+                </th>
+                <th>
+                    @Html.DisplayName("Salário Base")
+                </th>
+                <th>
+                    @Html.DisplayName("Nascimento")
+                </th>
+                <th>
+                    @Html.DisplayName("Departamento")
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>
+                    @Html.DisplayFor(Model => Model.Nome)
+                </th>
+                <th>
+                    @Html.DisplayFor(Model => Model.Email)
+                </th>
+                <th>
+                    @Html.DisplayFor(Model => Model.SalarioBase)
+                </th>
+                <th>
+                    @Html.DisplayFor(Model => Model.Nascimento)
+                </th>
+                <th>
+                    @Html.DisplayFor(Model => Model.DepartamentoId)
+                </th>
+            </tr>
+        </tbody>
+    </table>
+    <div class="col-md-12">
+        <h3>Deseja mesmo deletar o registro acima?</h3>
+    </div>
+    <div>
+        <form asp-action="Delete">
+            <input type="submit" class="btn btn-danger" value="Confirmar" />
+            <a asp-action="Index" class="btn btn-default">Cancelar</a> 
+        </form>
+    </div>
+</div>

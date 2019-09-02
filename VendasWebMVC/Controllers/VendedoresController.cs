@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using VendasWebMVC.Models;
 using VendasWebMVC.Models.ViewModels;
 using VendasWebMVC.Models.Services;
 
@@ -41,6 +37,34 @@ namespace VendasWebMVC.Controllers
         public IActionResult Create(VendedorFormViewModel obj)
         {
             _vendedorService.Insert(obj.Vendedor);
+            return RedirectToAction(nameof(Index));
+        }
+
+        //O '?' no parâmetro indica que o mesmo é opcional
+        public IActionResult Delete(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var vend = _vendedorService.FindByID(id.Value);
+            if(vend == null)
+            {
+                return NotFound();
+            }
+
+            else
+            {
+                return View(vend);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            _vendedorService.Remove(id);
             return RedirectToAction(nameof(Index));
         }
     }
