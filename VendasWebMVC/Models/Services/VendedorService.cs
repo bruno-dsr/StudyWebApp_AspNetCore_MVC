@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace VendasWebMVC.Models.Services
 {
@@ -25,7 +26,7 @@ namespace VendasWebMVC.Models.Services
 
         public Vendedor FindByID(int id)
         {
-            return _context.Vendedor.FirstOrDefault(v => v.ID == id);
+            return _context.Vendedor.Include(v => v.Departamento).FirstOrDefault(v => v.ID == id);
         }
 
         public void Remove(int id)

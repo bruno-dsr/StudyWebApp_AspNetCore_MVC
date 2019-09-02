@@ -1,0 +1,46 @@
+﻿@model VendasWebMVC.Models.Vendedor
+@{
+    ViewData["Title"] = "Detalhes do Vendedor";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="col-md-12">
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Nome: ")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt>
+            @Html.DisplayName("E-Mail: ")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayName("Nascimento: ")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Nascimento)
+        </dd>
+        <dt>
+            @Html.DisplayName("Salário Base: ")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SalarioBase)
+        </dd>
+        <dt>
+            @Html.DisplayName("Departamento: ")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Departamento.Nome)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-success">Editar</a>
+    <a asp-action="Delete" asp-route-id="@Model.ID" class="btn btn-danger">Excluir</a>
+    <a asp-action="Index" class="btn btn-default">Voltar</a>
+</div>

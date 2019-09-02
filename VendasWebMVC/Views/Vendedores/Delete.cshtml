@@ -1,10 +1,10 @@
 ﻿@model VendasWebMVC.Models.Vendedor
 @{
-    ViewData["Title"] = "Deletar Vendedor";
+    ViewData["Title"] = "Excluir Vendedor";
 }
 
 <h2>@ViewData["Title"]</h2>
-
+<hr />
 <!-- Os dados aqui são exibidos em forma de tabela -->
 <!-- Seria possível também listar os dados com os elementos dl, dt e dd -->
 <div class="col-md-12">
@@ -43,18 +43,19 @@
                     @Html.DisplayFor(Model => Model.Nascimento)
                 </th>
                 <th>
-                    @Html.DisplayFor(Model => Model.DepartamentoId)
+                    @Html.DisplayFor(Model => Model.Departamento.Nome)
                 </th>
             </tr>
         </tbody>
     </table>
     <div class="col-md-12">
-        <h3>Deseja mesmo deletar o registro acima?</h3>
+        <h3>Deseja mesmo excluir o registro acima?</h3>
     </div>
     <div>
         <form asp-action="Delete">
             <input type="submit" class="btn btn-danger" value="Confirmar" />
-            <a asp-action="Index" class="btn btn-default">Cancelar</a> 
+            <a asp-action="Index" class="btn btn-default">Cancelar</a>
         </form>
+        <hr />
     </div>
 </div>
