@@ -38,9 +38,9 @@ namespace VendasWebMVC.Controllers
         [HttpPost]
         //Anti Forgery Token, contra ataques via sessão autenticada
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Vendedor obj)
+        public IActionResult Create(VendedorFormViewModel obj)
         {
-            _vendedorService.Insert(obj);
+            _vendedorService.Insert(obj.Vendedor);
             return RedirectToAction(nameof(Index));
         }
     }
