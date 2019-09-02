@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using VendasWebMVC.Models.ViewModels;
 using VendasWebMVC.Models.Services;
+using VendasWebMVC.Models;
+using System.Collections.Generic;
+using VendasWebMVC.Models.Services.Exceptions;
 
 namespace VendasWebMVC.Controllers
 {
@@ -43,13 +46,13 @@ namespace VendasWebMVC.Controllers
         //O '?' no parâmetro indica que o mesmo é opcional
         public IActionResult Delete(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
             var vend = _vendedorService.FindByID(id.Value);
-            if(vend == null)
+            if (vend == null)
             {
                 return NotFound();
             }
@@ -84,6 +87,53 @@ namespace VendasWebMVC.Controllers
             else
             {
                 return View(vend);
+            }
+        }
+
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var vend = _vendedorService.FindByID(id.Value);
+            if (vend == null)
+            {
+                return NotFound();
+            }
+
+            else
+            {
+                List<Departamento> departamentos = _departamentoService.FindAll();
+                VendedorFormViewModel viewModel = new VendedorFormViewModel() { Vendedor = vend, Departamentos = departamentos };
+                return View(viewModel);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, Vendedor vendedor)
+        {
+            if (id != vendedor.ID)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                _vendedorService.Update(vendedor);
+                return RedirectToAction(nameof(Index));
+            }
+
+            catch (NotFoundException e)
+            {
+                return NotFound();
+            }
+
+            catch (DbConcurrencyException e)
+            {
+                return BadRequest();
             }
         }
     }
