@@ -5,6 +5,7 @@ using VendasWebMVC.Models.Services;
 using VendasWebMVC.Models;
 using System.Collections.Generic;
 using VendasWebMVC.Models.Services.Exceptions;
+using System.Diagnostics;
 
 namespace VendasWebMVC.Controllers
 {
@@ -48,13 +49,13 @@ namespace VendasWebMVC.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "ID não informado." });
             }
 
             var vend = _vendedorService.FindByID(id.Value);
             if (vend == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "ID não encontrado." });
             }
 
             else
@@ -75,13 +76,13 @@ namespace VendasWebMVC.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "ID não informado." });
             }
 
             var vend = _vendedorService.FindByID(id.Value);
             if (vend == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "ID não encontrado." });
             }
 
             else
@@ -94,13 +95,13 @@ namespace VendasWebMVC.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "ID não informado." });
             }
 
             var vend = _vendedorService.FindByID(id.Value);
             if (vend == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "ID não encontrado." }); ;
             }
 
             else
@@ -117,7 +118,7 @@ namespace VendasWebMVC.Controllers
         {
             if (id != vendedor.ID)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Error), new { message = "ID incompatível com o objeto." });
             }
 
             try
@@ -128,13 +129,23 @@ namespace VendasWebMVC.Controllers
 
             catch (NotFoundException e)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
 
             catch (DbConcurrencyException e)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
+        }
+
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel()
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+            return View(viewModel);
         }
     }
 }
