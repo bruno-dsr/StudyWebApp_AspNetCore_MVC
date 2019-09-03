@@ -18,7 +18,8 @@
                 @Html.DisplayName("E-mail")
             </th>
             <th>
-                @Html.DisplayName("Data de Nascimento")
+                <!-- Esse item utiliza DataAnnotations na propriedade para definir o nome de exibição -->
+                @Html.DisplayNameFor(model => model.Nascimento)
             </th>
             <th>
                 @Html.DisplayName("Salário Base")
