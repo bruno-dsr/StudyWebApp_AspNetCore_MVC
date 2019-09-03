@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using VendasWebMVC.Models.Services.Exceptions;
 
@@ -14,32 +15,32 @@ namespace VendasWebMVC.Models.Services
             _context = context;
         }
 
-        public List<Vendedor> FindAll()
+        public async Task<List<Vendedor>> FindAllAsync()
         {
-            return _context.Vendedor.ToList();
+            return await _context.Vendedor.ToListAsync();
         }
 
-        public void Insert(Vendedor obj)
+        public async Task InsertAsync(Vendedor obj)
         {
             _context.Add(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public Vendedor FindByID(int id)
+        public async Task<Vendedor> FindByIDAsync(int id)
         {
-            return _context.Vendedor.Include(v => v.Departamento).FirstOrDefault(v => v.ID == id);
+            return await _context.Vendedor.Include(v => v.Departamento).FirstOrDefaultAsync(v => v.ID == id);
         }
 
-        public void Remove(int id)
+        public async Task RemoveAsync(int id)
         {
             var obj = _context.Vendedor.Find(id);
             _context.Vendedor.Remove(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(Vendedor obj)
+        public async Task UpdateAsync(Vendedor obj)
         {
-            if(!_context.Vendedor.Any(v => v.ID == obj.ID))
+            if(!await _context.Vendedor.AnyAsync(v => v.ID == obj.ID))
             {
                 throw new NotFoundException("ID não encontrado!");
             }
@@ -47,7 +48,7 @@ namespace VendasWebMVC.Models.Services
             try
             {
                 _context.Update(obj);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
             catch(DbUpdateConcurrencyException e)

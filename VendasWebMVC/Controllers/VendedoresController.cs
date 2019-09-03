@@ -6,6 +6,7 @@ using VendasWebMVC.Models;
 using System.Collections.Generic;
 using VendasWebMVC.Models.Services.Exceptions;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace VendasWebMVC.Controllers
 {
@@ -20,16 +21,16 @@ namespace VendasWebMVC.Controllers
             _departamentoService = departamentoService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var list = _vendedorService.FindAll();
+            var list = await _vendedorService.FindAllAsync();
             return View(list);
         }
 
         //Todos os actions são por padrão GET
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var dep = _departamentoService.FindAll();
+            var dep = await _departamentoService.FindAllAsync();
             var viewModel = new VendedorFormViewModel() { Departamentos = dep };
             return View(viewModel);
         }
@@ -38,28 +39,28 @@ namespace VendasWebMVC.Controllers
         [HttpPost]
         //Anti Forgery Token, contra ataques via sessão autenticada
         [ValidateAntiForgeryToken]
-        public IActionResult Create(VendedorFormViewModel obj)
+        public async Task<IActionResult> Create(VendedorFormViewModel obj)
         {
             if (!ModelState.IsValid)
             {
-                var departamentos = _departamentoService.FindAll();
+                var departamentos = await _departamentoService.FindAllAsync();
                 var viewModel = new VendedorFormViewModel() { Departamentos = departamentos, Vendedor = obj.Vendedor };
                 return View(viewModel);
             }
 
-            _vendedorService.Insert(obj.Vendedor);
+            await _vendedorService.InsertAsync(obj.Vendedor);
             return RedirectToAction(nameof(Index));
         }
 
         //O '?' no parâmetro indica que o mesmo é opcional
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "ID não informado." });
             }
 
-            var vend = _vendedorService.FindByID(id.Value);
+            var vend = await _vendedorService.FindByIDAsync(id.Value);
             if (vend == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "ID não encontrado." });
@@ -73,20 +74,20 @@ namespace VendasWebMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _vendedorService.Remove(id);
+            await _vendedorService.RemoveAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "ID não informado." });
             }
 
-            var vend = _vendedorService.FindByID(id.Value);
+            var vend = await _vendedorService.FindByIDAsync(id.Value);
             if (vend == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "ID não encontrado." });
@@ -98,14 +99,14 @@ namespace VendasWebMVC.Controllers
             }
         }
 
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "ID não informado." });
             }
 
-            var vend = _vendedorService.FindByID(id.Value);
+            var vend = _vendedorService.FindByIDAsync(id.Value);
             if (vend == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "ID não encontrado." }); ;
@@ -113,19 +114,19 @@ namespace VendasWebMVC.Controllers
 
             else
             {
-                List<Departamento> departamentos = _departamentoService.FindAll();
-                VendedorFormViewModel viewModel = new VendedorFormViewModel() { Vendedor = vend, Departamentos = departamentos };
+                var departamentos = await _departamentoService.FindAllAsync();
+                VendedorFormViewModel viewModel = new VendedorFormViewModel() { Vendedor = vend.Result, Departamentos = departamentos };
                 return View(viewModel);
             }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Vendedor vendedor)
+        public async Task<IActionResult> Edit(int id, Vendedor vendedor)
         {
             if (!ModelState.IsValid)
             {
-                var departamentos = _departamentoService.FindAll();
+                var departamentos = await _departamentoService.FindAllAsync();
                 var viewModel = new VendedorFormViewModel() { Departamentos = departamentos, Vendedor = vendedor };
                 return View(viewModel);
             }
@@ -137,7 +138,7 @@ namespace VendasWebMVC.Controllers
 
             try
             {
-                _vendedorService.Update(vendedor);
+                await _vendedorService.UpdateAsync(vendedor);
                 return RedirectToAction(nameof(Index));
             }
 
