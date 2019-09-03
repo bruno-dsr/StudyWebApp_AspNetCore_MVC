@@ -9,7 +9,7 @@
 <table class="table table-striped table-hover">
     <thead>
         <tr class="success">
-            <th> 
+            <th>
                 <!-- Dessa forma, é exibido o nome da propriedade do objeto -->
                 @Html.DisplayNameFor(model => model.Nome)
             </th>
@@ -31,28 +31,28 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nascimento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SalarioBase)
-            </td>
-            <td>
-                <!-- asp-action="":  define o action para o controller utilizado  -->
-                <!-- asp-route-id="" define na route o id do item -->
-                <!-- Ou seja, o método abaixo cria um link para a view Edit do controller com o ID do item daquela linha -->
-                <a asp-action="Edit" asp-route-id="@item.ID">Editar</a>
-                <a asp-action="Details" asp-route-id="@item.ID">Detalhes</a>
-                <a asp-action="Delete" asp-route-id="@item.ID">Deletar</a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nascimento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SalarioBase)
+                </td>
+                <td>
+                    <!-- asp-action="":  define o action para o controller utilizado  -->
+                    <!-- asp-route-id="" define na route o id do item -->
+                    <!-- Ou seja, o método abaixo cria um link para a view Edit do controller com o ID do item daquela linha -->
+                    <a asp-action="Edit" asp-route-id="@item.ID">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.ID">Detalhes</a>
+                    <a asp-action="Delete" asp-route-id="@item.ID">Deletar</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

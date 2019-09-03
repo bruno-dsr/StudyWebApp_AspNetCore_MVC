@@ -1,0 +1,54 @@
+﻿@model IEnumerable<VendasWebMVC.Models.Venda>
+@{
+    ViewData["Title"] = "Vendas";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+<a asp-action="SimpleSearchIndex" class="btn btn-success">Pesquisa Simplificada</a>
+<a asp-action="GroupingSearchIndex" class="btn btn-success">Pesquisa Agrupada</a>
+<br /><br />
+<table class="table table-hover table-striped">
+    <thead>
+        <tr class="success">
+            <td>
+                @Html.DisplayNameFor(model => model.ID)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.Data)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.Valor)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.Status)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.Vendedor)
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Valor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Vendedor.Nome)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-controller="Home" asp-action="Index" class="btn btn-default">Voltar</a>
