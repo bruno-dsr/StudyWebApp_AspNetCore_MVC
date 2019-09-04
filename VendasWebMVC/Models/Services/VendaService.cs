@@ -22,5 +22,21 @@ namespace VendasWebMVC.Models.Services
         {
             return await _context.Venda.Include(v => v.Vendedor).ToListAsync();
         }
+
+        public async Task<List<Venda>> FindByDateAsync(DateTime? dataInicial, DateTime? dataFinal)
+        {
+            var result = from obj in _context.Venda select obj;
+            if (dataInicial.HasValue)
+            {
+                result = result.Where(v => v.Data >= dataInicial.Value);
+            }
+            
+            if (dataFinal.HasValue)
+            {
+                result = result.Where(v => v.Data <= dataFinal.Value);
+            }
+
+            return await result.Include(v => v.Vendedor).Include(v => v.Vendedor.Departamento).OrderByDescending(v => v.Data).ToListAsync();
+        }
     }
 }

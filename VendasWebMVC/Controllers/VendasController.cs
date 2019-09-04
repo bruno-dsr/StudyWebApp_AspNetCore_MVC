@@ -32,9 +32,23 @@ namespace VendasWebMVC.Controllers
             return View();
         }
 
-        public IActionResult SimpleSearch()
+        public async Task<IActionResult> SimpleSearch(DateTime? dataInicial, DateTime? dataFinal)
         {
-            return View();
+            if (!dataInicial.HasValue)
+            {
+                dataInicial = new DateTime(DateTime.Now.Year, 1, 1);
+            }
+
+            if (!dataFinal.HasValue)
+            {
+                dataFinal = DateTime.Now.Date;
+            }
+
+            ViewData["dataInicial"] = dataInicial.Value.ToString("yyyy-MM-dd");
+            ViewData["dataFinal"] = dataFinal.Value.ToString("yyyy-MM-dd");
+
+            var list = await _vendaService.FindByDateAsync(dataInicial, dataFinal);
+            return View(list);
         }
 
         public IActionResult GroupingSearch()
