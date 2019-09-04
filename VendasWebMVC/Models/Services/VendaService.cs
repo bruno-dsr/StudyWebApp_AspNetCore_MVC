@@ -30,13 +30,29 @@ namespace VendasWebMVC.Models.Services
             {
                 result = result.Where(v => v.Data >= dataInicial.Value);
             }
-            
+
             if (dataFinal.HasValue)
             {
                 result = result.Where(v => v.Data <= dataFinal.Value);
             }
 
             return await result.Include(v => v.Vendedor).Include(v => v.Vendedor.Departamento).OrderByDescending(v => v.Data).ToListAsync();
+        }
+
+        public async Task<List<IGrouping<Departamento, Venda>>> FindByDateGroupingAsync(DateTime? dataInicial, DateTime? dataFinal)
+        {
+            var result = from obj in _context.Venda select obj;
+            if (dataInicial.HasValue)
+            {
+                result = result.Where(v => v.Data >= dataInicial.Value);
+            }
+
+            if (dataFinal.HasValue)
+            {
+                result = result.Where(v => v.Data <= dataFinal.Value);
+            }
+
+            return await result.Include(v => v.Vendedor).Include(v => v.Vendedor.Departamento).OrderByDescending(v => v.Data).GroupBy(v => v.Vendedor.Departamento).ToListAsync();
         }
     }
 }
